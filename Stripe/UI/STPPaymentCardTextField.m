@@ -534,11 +534,17 @@ typedef void (^STPNumberShrunkCompletionBlock)(BOOL completed);
             [self setNumberFieldShrunk:YES animated:YES completion:nil];
             break;
     }
+    if ([self.delegate respondsToSelector:@selector(paymentCardTextFieldDidBeginEditing:)]) {
+        [self.delegate paymentCardTextFieldDidBeginEditing:self];
+    }
     [self updateImageForFieldType:textField.tag];
 }
 
 - (void)textFieldDidEndEditing:(__unused UITextField *)textField {
     self.selectedField = nil;
+    if ([self.delegate respondsToSelector:@selector(paymentCardTextFieldDidEndEditing:)]) {
+        [self.delegate paymentCardTextFieldDidEndEditing:self];
+    }
 }
 
 - (BOOL)textField:(STPFormTextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {

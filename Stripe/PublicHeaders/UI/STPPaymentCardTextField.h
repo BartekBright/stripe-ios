@@ -29,6 +29,10 @@
  */
 - (void)paymentCardTextFieldDidChange:(nonnull STPPaymentCardTextField *)textField;
 
+- (void)paymentCardTextFieldDidBeginEditing:(nonnull STPPaymentCardTextField *)textField;
+
+- (void)paymentCardTextFieldDidEndEditing:(nonnull STPPaymentCardTextField *)textField;
+
 @end
 
 
