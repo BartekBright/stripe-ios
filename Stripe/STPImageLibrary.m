@@ -140,6 +140,9 @@
             case STPCardBrandVisa:
             imageName = shouldUseTemplate ? @"stp_card_visa_template" : @"stp_card_visa";
             break;
+        case STPCardBrandIsracard:
+            imageName = @"stp_card_isracard";
+            break;
     }
     UIImage *image = [self safeImageNamed:imageName
                       templateIfAvailable:shouldUseTemplate];

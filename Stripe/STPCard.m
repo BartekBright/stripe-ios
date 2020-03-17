@@ -73,6 +73,8 @@ NS_ASSUME_NONNULL_BEGIN
             return @"MasterCard";
         case STPCardBrandVisa:
             return @"Visa";
+        case STPCardBrandIsracard:
+            return @"Isracard";
         case STPCardBrandUnknown:
             return @"Unknown";
     }
@@ -127,7 +129,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (!other || ![other isKindOfClass:self.class]) {
         return NO;
     }
-    
+
     return [self.stripeID isEqualToString:other.stripeID];
 }
 

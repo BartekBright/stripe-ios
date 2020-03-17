@@ -142,6 +142,10 @@ static NSString * _Nonnull stringByRemovingCharactersFromSet(NSString * _Nonnull
     if (![self stringIsNumeric:sanitizedNumber]) {
         return STPCardValidationStateInvalid;
     }
+    //special validation algorithm for Isracard
+    if ([self stringIsValidIsracard:sanitizedNumber] && [self possibleBrandsForNumber:sanitizedNumber].count == 0) {
+        return STPCardValidationStateValid;
+    }
     STPBINRange *binRange = [STPBINRange mostSpecificBINRangeForNumber:sanitizedNumber];
     if (binRange.brand == STPCardBrandUnknown && validatingCardBrand) {
         return STPCardValidationStateInvalid;
@@ -191,6 +195,26 @@ static NSString * _Nonnull stringByRemovingCharactersFromSet(NSString * _Nonnull
                            currentMonth:[self currentMonth]];
 }
 
++ (BOOL)stringIsValidIsracard:(NSString *)cardNumber {
+    if (cardNumber.length < 8 || cardNumber.length > 9) {
+        return NO;
+    }
+
+    if (cardNumber.length == 8) {
+        cardNumber = [@"0" stringByAppendingString:cardNumber];
+    }
+
+    NSString *diff = @"987654321";
+    NSInteger sum = 0;
+    for (NSUInteger i = 0; i < 9; i++) {
+        NSInteger int1 = [diff substringWithRange:NSMakeRange(i, 1)].integerValue;
+        NSInteger int2 = [cardNumber substringWithRange:NSMakeRange(i, 1)].integerValue;
+        sum += int1 * int2;
+    }
+
+    return sum % 11 == 0;
+}
+
 + (NSUInteger)minCVCLength {
     return 3;
 }
@@ -210,6 +234,8 @@ static NSString * _Nonnull stringByRemovingCharactersFromSet(NSString * _Nonnull
     NSSet *brands = [self possibleBrandsForNumber:sanitizedNumber];
     if (brands.count == 1) {
         return (STPCardBrand)[brands.anyObject integerValue];
+    } else if ([self stringIsValidIsracard:sanitizedNumber]) {
+        return STPCardBrandIsracard;
     }
     return STPCardBrandUnknown;
 }
@@ -229,6 +255,7 @@ static NSString * _Nonnull stringByRemovingCharactersFromSet(NSString * _Nonnull
     }
     return [set copy];
 }
+
 
 + (NSInteger)maxLengthForCardBrand:(STPCardBrand)brand {
     NSInteger maxLength = -1;

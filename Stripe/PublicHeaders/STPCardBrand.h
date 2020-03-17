@@ -37,6 +37,7 @@ typedef NS_ENUM(NSInteger, STPCardBrand) {
      JCB card
      */
     STPCardBrandJCB,
+    STPCardBrandIsracard,
 
     /**
      Diners Club card
