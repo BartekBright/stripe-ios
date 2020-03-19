@@ -238,6 +238,9 @@ The curent brand image displayed in the receiver.
  */
 @property (nonatomic, strong, readwrite, nonnull) STPCardParams *cardParams;
 
+@property (nonatomic, readwrite, nonnull) STPCardBrand *cardBrand;
+
+
 /**
  Causes the text field to begin editing. Presents the keyboard.
  

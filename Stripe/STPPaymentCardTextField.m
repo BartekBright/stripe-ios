@@ -600,6 +600,10 @@ CGFloat const STPPaymentCardTextFieldMinimumPadding = 10;
     }
 }
 
+- (STPCardBrand *)cardBrand {
+    return self.currentBrandImageBrand;
+}
+
 - (STPCardParams *)cardParams {
     self.internalCardParams.number = self.cardNumber;
     self.internalCardParams.expMonth = self.expirationMonth;
